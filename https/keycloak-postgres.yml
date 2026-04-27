@@ -1,0 +1,53 @@
+
+
+services:
+  keycloak:
+    container_name: keycloak_app
+    image: quay.io/keycloak/keycloak:latest
+    restart: always
+    ports:
+      - "8090:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
+      KC_HOSTNAME: http://localhost:8090
+      KC_DB_URL: ${KC_DB_URL}
+      KC_DB: ${KC_DB}
+      KC_HOSTNAME: ${KC_HOSTNAME}
+      KC_HTTP_ENABLED: ${KC_HTTP_ENABLED}
+      KC_PROXY: ${KC_PROXY}
+      KC_PROXY_HEADERS: ${KC_PROXY_HEADERS}
+      KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - keycloak_postgres
+    networks:
+      - keycloak-network
+    command:
+      - start
+
+  keycloak_postgres:
+    container_name: keycloak_postgres
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - keycloak-network
+
+
+networks:
+  keycloak-network:
+    name: keycloak-network
+    driver: bridge
+
+volumes:
+  postgres_data:
