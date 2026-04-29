@@ -11,7 +11,7 @@ services:
     # Keycloak environment variables
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
-      KC_HOSTNAME: http://localhost:8090
+      KC_HOSTNAME: http://localhost:4040
       KC_DB_URL: ${KC_DB_URL}
       KC_DB: ${KC_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
