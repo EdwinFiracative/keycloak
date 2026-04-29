@@ -8,16 +8,19 @@ services:
     ports:
       - "8090:8080"
     environment:
+    # keycloak credentials
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
-      KC_HOSTNAME: http://localhost:8090
-      KC_DB_URL: ${KC_DB_URL}
-      KC_DB: ${KC_DB}
+    # keycloak reverse proxy configuration  
       KC_HOSTNAME: ${KC_HOSTNAME}
       KC_HTTP_ENABLED: ${KC_HTTP_ENABLED}
-      KC_PROXY: ${KC_PROXY}
       KC_PROXY_HEADERS: ${KC_PROXY_HEADERS}
-      KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL}
+    # keycloak rverse proxy configuration deprected  
+       # KC_PROXY: ${KC_PROXY}
+      # KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL}
+    # keycloak database configuration  
+      KC_DB_URL: ${KC_DB_URL}
+      KC_DB: ${KC_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
     depends_on:
