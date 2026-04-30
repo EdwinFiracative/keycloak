@@ -6,12 +6,20 @@ services:
     image: quay.io/keycloak/keycloak:latest
     restart: always
     ports:
-      - "8080:8080"
+      - "8090:8080"
     environment:
-    # Keycloak environment variables
+    # keycloak credentials
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
-      KC_HOSTNAME: http://localhost:8080
+    # keycloak reverse proxy configuration  
+      KC_HOSTNAME: ${KC_HOSTNAME}
+      KC_HTTP_ENABLED: ${KC_HTTP_ENABLED}
+      KC_PROXY_HEADERS: ${KC_PROXY_HEADERS}
+    # keycloak rverse proxy configuration deprected  
+       # KC_PROXY: ${KC_PROXY}
+      # KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL}
+    # keycloak database configuration  
+      KC_DB_URL: ${KC_DB_URL}
       KC_DB: ${KC_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -21,16 +29,14 @@ services:
       - keycloak-network
     command:
       - start
-      - --http-enabled=true
 
   keycloak_postgres:
     container_name: keycloak_postgres
-    image: postgres:17
+    image: postgres:latest
     restart: always
     ports:
       - "5433:5432"
     environment:
-    # PostgreSQL environment variables
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
